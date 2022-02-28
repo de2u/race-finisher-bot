@@ -2,6 +2,7 @@ const body = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 const https = require('https');
+const WebSocket = require('ws');
 //clientId = fs.readFile('clientId.txt');
 //secret = fs.readFile('secret.txt');
 const axios = require('axios');
@@ -40,23 +41,31 @@ function getToken(){
     });
 }
 
+app.use(express.static("."));
 
 app.get('/', function(request, response){
-    response.sendFile("./truc.html", fileOptions);
+    response.sendFile("./index.html", fileOptions);
 })
 
 //Api permettant de récupérer les informations de la race entrée.
 app.all('/race', function(request, response){
+    console.log(request.body);
     axios.get(request.body.urlRace+"/data", {
+    //axios.get("https://racetime.gg/ori-bf/epic-meowth-6008/data", {
     }).then(
         function(res){
-            console.log(res.data);
+            //console.log(res.data);
             response.send(res.data);
+            /*var ws = new WebSocket("ws:racetime.gg"+res.data.websocket_url);
+            ws.on('message', function(data, flags) {
+                console.log(data);
+            });*/
         }
     ).catch(function (error){
         console.log(error);
     })
 })
 
+const server = https.createServer(options, app).listen(3123);
 
-https.createServer(options, app).listen(3123);
+
