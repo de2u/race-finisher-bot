@@ -1,11 +1,18 @@
 const body = require('body-parser');
 const express = require('express');
 const fs = require('fs');
-const clientId = fs.readFile('clientId.txt');
-const secret = fs.readFile('secret.txt');
+const https = require('https');
+//clientId = fs.readFile('clientId.txt');
+//secret = fs.readFile('secret.txt');
 const axios = require('axios');
 token = "";
 const app = express();
+
+
+const options = {
+    key: fs.readFileSync('selfsigned.key'),
+    cert: fs.readFileSync('selfsigned.crt')};
+
 
 
 
@@ -16,34 +23,40 @@ app.use(bodyParser.json({limit: '100mb'}));
 
 const fileOptions = {root: '.'};
 
+//Fonction pour récupérer le token pour l'utilisation de l'API de gestion de races.
 function getToken(){
     axios.post("https://racetime.gg/o/token", {
         client_id: clientId,
         client_secret: secret,
-        grant_type: "client_credentials"
+        grant_type: "client_credentials",
+        rejectUnauthorized: false
     }).then(
         function(response){
             token = response.access_token;
         }
-    )
+    ).catch(
+        function (error) {
+        console.log(error);
+    });
 }
-
-function createRace(){
-    truc;
-}
-
 
 
 app.get('/', function(request, response){
     response.sendFile("./truc.html", fileOptions);
 })
 
-app.post('/truc', function(request, response){
-
+//Api permettant de récupérer les informations de la race entrée.
+app.all('/race', function(request, response){
+    axios.get(request.body.urlRace+"/data", {
+    }).then(
+        function(res){
+            console.log(res.data);
+            response.send(res.data);
+        }
+    ).catch(function (error){
+        console.log(error);
+    })
 })
 
-app.post('/machin', function(request, response){
 
-})
-
-app.listen(3123);
+https.createServer(options, app).listen(3123);
