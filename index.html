@@ -1,49 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>race-finisher-bot</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    
+
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script type="text/javascript" src="script.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-    
-    
-    <link id="cssSwitch" type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/4.2.1/darkly/bootstrap.min.css">
-    <!-- <link id="css_switcher" type="text/css" rel="stylesheet" href=""> -->
-    
-</head>
-<body>
-    
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <h1 class="navbar-brand" href="#">race-finisher-bot</h1>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="styles.css">
+    <link id="cssSwitch" type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/4.2.1/darkly/bootstrap.min.css">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <h1 class="navbar-brand" href="#">race-finisher-bot</h1>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-  
-      <div class="collapse navbar-collapse" id="navbarColor03">
-        <ul class="navbar-nav me-auto">
-        </ul>
-        <div class="d-flex">
-            <button class="btn btn-secondary my-2 my-sm-0" id="nameMode"type="submit" onclick="darkwhiteMode();">Light Mode</button>
-        </div>
-            
-        
-      </div>
-    </div>
-  </nav>
-  
 
-    <div>
-        
-    </div>
+            <div class="collapse navbar-collapse" id="navbarColor03">
+                <ul class="navbar-nav me-auto">
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-secondary my-2 my-sm-0" id="nameMode" type="submit" onclick="darkwhiteMode();">Light Mode</button>
+                </div>
+
+
+            </div>
+        </div>
+    </nav>
+    </br>
 
     <!-- bloc en diago  -->
     <div class="container">
@@ -53,51 +48,39 @@
                 <form method="post" name="actRace" id="actRace" action="">
                     <label>link of the actual race: </label>
                     <input type="url" name="urlRace" id="urlRace">
-                    
+
                 </form>
-                <button class="btn btn-secondary" id="urlRaceButton" >search</button>
+                <button class="btn btn-secondary" id="urlRaceButton">search</button>
             </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="container">
         <div class="row">
-            <div class="col-auto .mr-auto">
-                <h2>Create Race</h2>
-                
+            <div class="col-lg-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="bugColor" id="theadColor">
+                            <th scope="col">Place</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr class="table-dark">
+                            <th scope="row"><img src="https://racetime.gg/media/183a2529ffa914fa17101f376abfe5ef.png" alt="icon" width="22" height="22">Dark</th>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                        </tr> -->
+                    </tbody>
+                </table>
             </div>
         </div>
-        
-        </div>
     </div>
-
-    <div>
-        <div>
-            <h2>Chocie of Game</h2>
-            <ul>
-                <!-- list of Game -->
-            </ul>
-        </div>
-        <div>
-            <h2>Info of the game</h2>
-            <form>
-                <label>Name of Categorie</label>
-                <select>
-                    <option></option>
-                </select>>
-                <label>Show on Twitch</label>
-                <input type="checkbox">
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    </div>
-
-    <div>
-        <div>
-            <p>Place</p>
-            <p>Name</p>
-            <p>Status</p>
-            <p>Time</p>
-        </div>
-        <div>
-            
-        </div>
     </div>
 </body>
+
 </html>
+
