@@ -54,15 +54,15 @@ function lauchTheme(){
 }
 
 $(document).ready(function() {
-    //lauchTheme();
+    lauchTheme();
 
     $(urlRaceButton).click(function() {
-
         //alert( "Alert" );
-        var user= [{}];
+
         var url = $(urlRace).val();
         console.log("one");
         $.post("https://pedago.univ-avignon.fr:3123/race", { urlRace: url }, function(result) {
+            var user= [{}];
             console.log(result);
             console.log("ds");
             $.getJSON(result, function(data) {
@@ -70,14 +70,15 @@ $(document).ready(function() {
                     user.push({"place":element.place,"icon":null,"name": element.user.name,"status":element.status.value,"time":element.finish_time})
                     //user.push(element); //we get the user, all the info
                 });
+                fillTable(user);
+                user.forEach(element => {
+                    console.log(element);
+                });
             });
         });
         var item = { "palce": 1, "icon": "url", "name": "test1", "status": "test2", "time": 2 };
         var demo = [item, item, item, item];
-        //fillTable(demo);
-        user.forEach(element => {
-            console.log(element);
-        });
+        //fillTable(user);
     });
 });
 
@@ -88,7 +89,7 @@ function fillTable(arr) {
     });
     arr.forEach(element => {
         var ligne1 = "<tr class='table-dark'><th>" + element.palce + "</th>";
-        var ligne2 = "<th scope='row'><img src='https://racetime.gg/media/183a2529ffa914fa17101f376abfe5ef.png' alt='icon' width='22' height='22'>" + element.name + "</th>";
+        var ligne2 = "<th scope='row'><img src='' alt='icon' width='22' height='22'>" + element.name + "</th>";
         var ligne3 = "<th>" + element.status + "</th>";
         var ligne4 = "<th>" + element.time + "</th></tr>";
         var ligneEnd = ligne1 + ligne2 + ligne3 + ligne4;
