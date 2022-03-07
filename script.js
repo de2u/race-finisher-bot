@@ -81,8 +81,21 @@ $(document).ready(function() {
         url = isUrl(url);
         $.post("https://pedago.univ-avignon.fr:3123/race", { urlChannel: url }, function(result) {
             console.log(result);
+            socket = new WebSocket('wss://racetime.gg'+result.websocket_url);
+
+
+            // Écouter les messages
+            socket.addEventListener('message', function (event) {
+                $.getJSON(event, function(data) {
+                    $("tableauScore").append(data.renders.entrants);
+
+                });
+
+            });
         });
     });
+
+
 });
 
 function isUrl(message)
@@ -110,18 +123,3 @@ function fillTable(arr) {
     });
 }
 
-const socket = new WebSocket('ws://pedago.univ-avignon.fr:3123');
-
-//open connect
-socket.addEventListener('open', function (event) {
-    socket.send('Coucou le serveur !');
-});
-
-// Écouter les messages
-socket.addEventListener('message', function (event) {
-    $.getJSON(event, function(data) {
-        $("tableauScore").append(data.entrants);
-
-    });
-
-});
