@@ -57,6 +57,7 @@ $(document).ready(function() {
     //lauchTheme();
 
     $(urlRaceButton).click(function() {
+
         //alert( "Alert" );
         var user= [{}];
         var url = $(urlRace).val();
