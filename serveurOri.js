@@ -45,6 +45,7 @@ app.use(express.static("."));
 
 app.all('/', function(request, response){
     response.sendFile("./index.html", fileOptions);
+
 })
 
 //Api permettant de récupérer les informations de la race entrée.
@@ -56,8 +57,8 @@ app.all('/race', function(request, response){
         function(res){
             //console.log(res.data);
             response.send(res.data);
-            var ws = new WebSocket("wss://racetime.gg"+res.data.websocket_bot_url);
-            ws.on('message', function(data, flags) {
+            var wsRace = new WebSocket("wss://racetime.gg"+res.data.websocket_bot_url);
+            wsRace.on('message', function(data, flags) {
                 console.log(JSON.stringify(data.toString('utf8')));
             });
         }
@@ -67,5 +68,3 @@ app.all('/race', function(request, response){
 })
 
 const server = https.createServer(options, app).listen(3123);
-
-
