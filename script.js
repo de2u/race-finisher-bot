@@ -54,33 +54,59 @@ function lauchTheme(){
 }
 
 $(document).ready(function() {
-    //lauchTheme();
+    lauchTheme();
 
     $(urlRaceButton).click(function() {
-
-        //alert( "Alert" );
-        var user= [{}];
         var url = $(urlRace).val();
-        console.log("one");
         $.post("https://pedago.univ-avignon.fr:3123/race", { urlRace: url }, function(result) {
+            var user= [{}];
             console.log(result);
             console.log("ds");
             $.getJSON(result, function(data) {
-                data.race.entrants.forEach(element => {
+                /*data.race.entrants.forEach(element => {
                     user.push({"place":element.place,"icon":null,"name": element.user.name,"status":element.status.value,"time":element.finish_time})
                     //user.push(element); //we get the user, all the info
-                });
+                });*/
+                fillTable(data.race.entrants);
+
             });
         });
         var item = { "palce": 1, "icon": "url", "name": "test1", "status": "test2", "time": 2 };
         var demo = [item, item, item, item];
-        //fillTable(demo);
-        user.forEach(element => {
-            console.log(element);
+        //fillTable(user);
+    });
+
+    $(urlChannelButton).click(function (){
+        var url = $(urlChannel).val();
+        url = isUrl(url);
+        $.post("https://pedago.univ-avignon.fr:3123/race", { urlChannel: url }, function(result) {
+            console.log(result);
+            socket = new WebSocket('wss://racetime.gg'+result.websocket_url);
+
+
+            // Écouter les messages
+            socket.addEventListener('message', function (event) {
+                $.getJSON(event, function(data) {
+                    $("tableauScore").append(data.renders.entrants);
+
+                });
+
+            });
         });
     });
+
+
 });
 
+function isUrl(message)
+{
+    var url = new RegExp('^https?:');
+
+    if (!url.test(VAL)) {
+        return "https://www.twitch.tv/"+message;
+    }
+    return message;
+}
 
 function fillTable(arr) {
     arr.forEach(element => {
@@ -88,7 +114,7 @@ function fillTable(arr) {
     });
     arr.forEach(element => {
         var ligne1 = "<tr class='table-dark'><th>" + element.palce + "</th>";
-        var ligne2 = "<th scope='row'><img src='https://racetime.gg/media/183a2529ffa914fa17101f376abfe5ef.png' alt='icon' width='22' height='22'>" + element.name + "</th>";
+        var ligne2 = "<th scope='row'><img src='' alt='icon' width='22' height='22'>" + element.name + "</th>";
         var ligne3 = "<th>" + element.status + "</th>";
         var ligne4 = "<th>" + element.time + "</th></tr>";
         var ligneEnd = ligne1 + ligne2 + ligne3 + ligne4;
