@@ -16,13 +16,9 @@ $(document).ready(function() {
 
     var user;
     $(urlRaceButton).click(function() {
-        //alert( "Alert" );
-        //var url = $(urlRace).val();
-        var url = "https://racetime.gg/user/MqzQPW4Nam31L2R5";
-        console.log("one");
+        var url = $(urlRace).val();
         $.post("https://pedago.univ-avignon.fr:3123/race", { urlRace: url }, function(result) {
             console.log(result);
-            console.log("ds");
             $.getJSON(result, function(jd) {
                 jd.entrants.forEach(element => {
                     user.push(element); //we get the user, all the info
@@ -31,10 +27,7 @@ $(document).ready(function() {
         });
         var item = { "palce": 1, "icon": "url", "name": "test1", "status": "test2", "time": 2 };
         var demo = [item, item, item, item];
-        //fillTable(demo);
-        /*user.forEach(element => {
-            console.log(element);
-        });*/
+        fillTable(user);
     });
 
     if (user != null) {

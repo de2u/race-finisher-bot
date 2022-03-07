@@ -43,7 +43,7 @@ function getToken(){
 
 app.use(express.static("."));
 
-app.get('/', function(request, response){
+app.all('/', function(request, response){
     response.sendFile("./index.html", fileOptions);
 })
 
@@ -56,10 +56,10 @@ app.all('/race', function(request, response){
         function(res){
             //console.log(res.data);
             response.send(res.data);
-            /*var ws = new WebSocket("ws:racetime.gg"+res.data.websocket_url);
+            var ws = new WebSocket("wss://racetime.gg"+res.data.websocket_bot_url);
             ws.on('message', function(data, flags) {
-                console.log(data);
-            });*/
+                console.log(JSON.stringify(data.toString('utf8')));
+            });
         }
     ).catch(function (error){
         console.log(error);
