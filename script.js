@@ -4,43 +4,80 @@ function darkwhiteMode() {
         document.getElementById("nameMode").innerText = "Dark Mode";
         $(cssSwitch).attr('href', 'https://maxcdn.bootstrapcdn.com/bootswatch/4.2.1/flatly/bootstrap.min.css');
         $(theadColor).toggleClass("bugColor");
+        setCookie("light");
     } else {
         document.getElementById("nameMode").innerText = "Light Mode";
         $(cssSwitch).attr('href', 'https://maxcdn.bootstrapcdn.com/bootswatch/4.2.1/darkly/bootstrap.min.css');
         $(theadColor).toggleClass("bugColor");
+        setCookie("dark");
     }
 
 }
 
-$(document).ready(function() {
+function setCookie(cvalue) {
+    const d = new Date();
+    d.setTime(d.getTime() + (365*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = "theme=" + cvalue + ";" + expires;
+}
 
-    var user;
+function getCookie() {
+    let name = "theme=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function lauchTheme(){
+    let tmp = getCookie();
+    switch (tmp) {
+        case "light":
+            document.getElementById("nameMode").innerText = "Dark Mode";
+            $(cssSwitch).attr('href', 'https://maxcdn.bootstrapcdn.com/bootswatch/4.2.1/flatly/bootstrap.min.css');
+            $(theadColor).toggleClass("bugColor");
+            break;
+        case "":
+        case "dark":
+            document.getElementById("nameMode").innerText = "Light Mode";
+            $(cssSwitch).attr('href', 'https://maxcdn.bootstrapcdn.com/bootswatch/4.2.1/darkly/bootstrap.min.css');
+            break;
+    }
+}
+
+$(document).ready(function() {
+    //lauchTheme();
+
     $(urlRaceButton).click(function() {
         //alert( "Alert" );
-        //var url = $(urlRace).val();
-        var url = "https://racetime.gg/user/MqzQPW4Nam31L2R5";
+        var user= [{}];
+        var url = $(urlRace).val();
         console.log("one");
         $.post("https://pedago.univ-avignon.fr:3123/race", { urlRace: url }, function(result) {
             console.log(result);
             console.log("ds");
-            $.getJSON(result, function(jd) {
-                jd.entrants.forEach(element => {
-                    user.push(element); //we get the user, all the info
+            $.getJSON(result, function(data) {
+                data.race.entrants.forEach(element => {
+                    user.push({"place":element.place,"icon":null,"name": element.user.name,"status":element.status.value,"time":element.finish_time})
+                    //user.push(element); //we get the user, all the info
                 });
             });
         });
         var item = { "palce": 1, "icon": "url", "name": "test1", "status": "test2", "time": 2 };
         var demo = [item, item, item, item];
         //fillTable(demo);
-        /*user.forEach(element => {
+        user.forEach(element => {
             console.log(element);
-        });*/
+        });
     });
-
-    if (user != null) {
-        //get name, avatar, place, 
-        Temporal.Duration.from(element.finish_time);
-    }
 });
 
 
