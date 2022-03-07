@@ -43,6 +43,8 @@ function getToken(){
 
 app.use(express.static("."));
 
+
+
 app.all('/', function(request, response){
     response.sendFile("./index.html", fileOptions);
 
@@ -57,9 +59,25 @@ app.all('/race', function(request, response){
         function(res){
             //console.log(res.data);
             response.send(res.data);
+            /*var wsServer = new WebSocketServer({
+            httpsServers: server,     
+            autoAcceptConnections: true
+            };*/
+
             var wsRace = new WebSocket("wss://racetime.gg"+res.data.websocket_bot_url);
-            wsRace.on('message', function(data, flags) {
-                console.log(JSON.stringify(data.toString('utf8')));
+                wsRace.on('message', function(data, flags) {
+                let donne = JSON.parse(data);
+                var finish = 0;
+                if(donne.type=="race.data"){
+                    console.log(donne.race.entrants);
+                    if(donne.race.entrants[finish].place != null);{
+                        finish++;
+                    }
+                }
+                else{
+                    //envoyer html à frontend par socket.
+                }
+                
             });
         }
     ).catch(function (error){
@@ -68,3 +86,4 @@ app.all('/race', function(request, response){
 })
 
 const server = https.createServer(options, app).listen(3123);
+
