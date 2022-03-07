@@ -57,31 +57,43 @@ $(document).ready(function() {
     lauchTheme();
 
     $(urlRaceButton).click(function() {
-        //alert( "Alert" );
-
         var url = $(urlRace).val();
-        console.log("one");
         $.post("https://pedago.univ-avignon.fr:3123/race", { urlRace: url }, function(result) {
             var user= [{}];
             console.log(result);
             console.log("ds");
             $.getJSON(result, function(data) {
-                data.race.entrants.forEach(element => {
+                /*data.race.entrants.forEach(element => {
                     user.push({"place":element.place,"icon":null,"name": element.user.name,"status":element.status.value,"time":element.finish_time})
                     //user.push(element); //we get the user, all the info
-                });
-                fillTable(user);
-                user.forEach(element => {
-                    console.log(element);
-                });
+                });*/
+                fillTable(data.race.entrants);
+
             });
         });
         var item = { "palce": 1, "icon": "url", "name": "test1", "status": "test2", "time": 2 };
         var demo = [item, item, item, item];
         //fillTable(user);
     });
+
+    $(urlChannelButton).click(function (){
+        var url = $(urlChannel).val();
+        url = isUrl(url);
+        $.post("https://pedago.univ-avignon.fr:3123/race", { urlChannel: url }, function(result) {
+            console.log(result);
+        });
+    });
 });
 
+function isUrl(message)
+{
+    var url = new RegExp('^https?:');
+
+    if (!url.test(VAL)) {
+        return "https://www.twitch.tv/"+message;
+    }
+    return message;
+}
 
 function fillTable(arr) {
     arr.forEach(element => {
@@ -98,3 +110,18 @@ function fillTable(arr) {
     });
 }
 
+const socket = new WebSocket('ws://pedago.univ-avignon.fr:3123');
+
+//open connect
+socket.addEventListener('open', function (event) {
+    socket.send('Coucou le serveur !');
+});
+
+// Écouter les messages
+socket.addEventListener('message', function (event) {
+    $.getJSON(event, function(data) {
+        $("tableauScore").append(data.entrants);
+
+    });
+
+});
