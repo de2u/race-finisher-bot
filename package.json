@@ -1,0 +1,27 @@
+{
+  "name": "race-finisher-bot",
+  "version": "0.1.0",
+  "description": "A Twitch chatbot to announce racetime.gg race finishers.",
+  "main": "serveurOri.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/de2u/race-finisher-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/de2u/race-finisher-bot/issues"
+  },
+  "homepage": "https://github.com/de2u/race-finisher-bot#readme",
+  "dependencies": {
+    "axios": "^0.26.0",
+    "body-parser": "^1.19.2",
+    "express": "^4.17.3",
+    "fs": "^0.0.1-security",
+    "tmi.js": "^1.8.5",
+    "ws": "^8.5.0"
+  }
+}
