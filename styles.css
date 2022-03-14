@@ -2,14 +2,11 @@
     color: #fff;
 }
 
-img {
-    width: 330px;
-    height: 330px;
-    /* -webkit-transform: rotate(180deg);
-    -moz-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(120deg); */
+@media (max-width:640px) {
+    .img-fluid {
+        height: 55px;
+        width: 55px;
+    }
 }
 
 p {

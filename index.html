@@ -15,7 +15,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 
     <script type="text/javascript" src="script.js"></script>
     <!--  -->
@@ -32,9 +32,9 @@
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a type="button" class="nav-link active" data-toggle="modal" data-target="#ModalHowItWork">How it work
-                            <!-- onclick="HowItWork(); -->
-                            <span class="visually-hidden">(current)</span>
+                        <a type="button" class="nav-link active" data-toggle="modal" data-target="#ModalHowItWork" onclick="HowItWork();">How it work
+                            <!-- onclick=" HowItWork(); -->
+                            <!-- <span class="visually-hidden">(current)</span> -->
                         </a>
                     </li>
                 </ul>
@@ -46,7 +46,6 @@
     </nav>
     </br>
 
-
     <!-- Modal -->
     <div class="modal fade" id="ModalHowItWork" role="dialog">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -54,15 +53,16 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md">
-                        <img class="arrow" id="arrowLeft" alt="arrow to point element">
+                        <img class="img-fluid" id="arrowLeft" alt="arrow to point element">
                         <p class=" text-left ">
 
                             Here you will paste the link or the name of the chanelle twitch where the bot we reley the info
                         </p>
 
                     </div>
+                    </br>
                     <div class="col-md ">
-                        <img class="arrow" id="arrowRight" alt="arrow to point element">
+                        <img class="img-fluid" id="arrowRight" alt="arrow to point element">
                         <p class="text-left ">
                             And here you will selest the link racetime of the race
                         </p>
@@ -98,7 +98,7 @@
     <div class="container ">
         <div class="row ">
             <div class="col-lg-12 ">
-                <div id="tableauScore "></div>
+                <div id="tableauScore"></div>
                 <!--<table class="table table-hover ">
                     <thead>
                         <tr class="bugColor " id="theadColor ">
