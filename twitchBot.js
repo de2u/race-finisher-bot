@@ -41,15 +41,6 @@ function sendInfo(message) {
         });
 }
 function sendMessages(message){
-    client.say('fronkeybot','hello i am realy good ');
+    client.say(global.channelName, message);
 }
-setChannel('fronkeybot');
-startBot("dhfsskd");
-client.on("chat", (fronkeybot, user, message, self) => {
-    if(self) {
-        return;
-    }
-    client.say(fronkeybot, "pong");
-});
-sendInfo('hello how are you my friend');
 
