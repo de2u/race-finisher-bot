@@ -71,13 +71,15 @@ $(document).ready(function() {
         $.post("https://pedago.univ-avignon.fr:3123/race", { urlRace: url }, function(result) {
             var user = [{}];
             console.log(result);
-            console.log("ds");
-            $.getJSON(result, function(data) {
-                /*data.race.entrants.forEach(element => {
-                    user.push({"place":element.place,"icon":null,"name": element.user.name,"status":element.status.value,"time":element.finish_time})
-                    //user.push(element); //we get the user, all the info
-                });*/
-                fillTable(data.race.entrants);
+            socket = new WebSocket('wss://racetime.gg' + result.websocket_url);
+
+
+            // Écouter les messages
+            socket.addEventListener('message', function(event) {
+                $.getJSON(event, function(data) {
+                    $("tableauScore").innerHTML = (data.renders.entrants);
+
+                });
 
             });
         });
@@ -90,7 +92,7 @@ $(document).ready(function() {
         var url = $(urlChannel).val();
         url = isUrl(url);
         test();
-        $.post("https://pedago.univ-avignon.fr:3123/race", { urlChannel: url }, function(result) {
+        $.post("https://pedago.univ-avignon.fr:3123/twitch", { urlChannel: url }, function(result) {
             console.log(result);
             socket = new WebSocket('wss://racetime.gg' + result.websocket_url);
 
