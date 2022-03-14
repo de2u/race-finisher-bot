@@ -113,8 +113,10 @@ $(document).ready(function() {
 });
 
 function isUrl(message) {
-    var url = message.replace(('(?!.*/)(\w)+'), "$2");
-    return url;
+    const regex = /(?!.*\/)(\w)+/g;
+    url = message.match(regex);
+    // pseudo.match(/^([a-zA-Z ]+)$/);
+    return url[0];
 }
 
 function fillTable(arr) {
