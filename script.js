@@ -71,6 +71,7 @@ $(document).ready(function() {
         $.post("https://pedago.univ-avignon.fr:3123/race", { urlRace: url }, function(result) {
             var user = [{}];
             console.log(result);
+            console.log(result.websocket_url);
             socket = new WebSocket('wss://racetime.gg' + result.websocket_url);
 
 
@@ -91,47 +92,29 @@ $(document).ready(function() {
     $(urlChannelButton).click(function() {
         var url = $(urlChannel).val();
         url = isUrl(url);
-        test();
+        console.log(url);
         $.post("https://pedago.univ-avignon.fr:3123/twitch", { urlChannel: url }, function(result) {
             console.log(result);
-            socket = new WebSocket('wss://racetime.gg' + result.websocket_url);
+            // socket = new WebSocket('wss://racetime.gg' + result.websocket_url);
 
 
-            // Écouter les messages
-            socket.addEventListener('message', function(event) {
-                $.getJSON(event, function(data) {
-                    $("tableauScore").append(data.renders.entrants);
+            // // Écouter les messages
+            // socket.addEventListener('message', function(event) {
+            //     $.getJSON(event, function(data) {
+            //         $("tableauScore").append(data.renders.entrants);
 
-                });
+            //     });
 
-            });
+            // });
         });
     });
 
 
 });
 
-function test() {
-    socket = new WebSocket('wss://racetime.gg/ws/race/daring-falco-4146');
-
-
-    // Écouter les messages
-    socket.addEventListener('message', function(event) {
-        $.getJSON(event, function(data) {
-            $("tableauScore").append(data.renders.entrants);
-
-        });
-
-    });
-}
-
 function isUrl(message) {
-    var url = new RegExp('^https?:');
-
-    if (!url.test(message)) {
-        return "https://www.twitch.tv/" + message;
-    }
-    return message;
+    var url = message.replace(('(?!.*/)(\w)+'), "$2");
+    return url;
 }
 
 function fillTable(arr) {
