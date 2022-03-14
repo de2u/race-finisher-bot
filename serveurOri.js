@@ -22,7 +22,7 @@ const bodyParser=require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({limit: '100mb'}));
 // Parse the request body as JSON
-
+var lastFinish = "";
 const fileOptions = {root: '.'};
 
 //Fonction pour récupérer le token pour l'utilisation de l'API de gestion de races.
@@ -54,31 +54,30 @@ app.all('/', function(request, response){
 //Api permettant de récupérer les informations de la race entrée.
 app.all('/race', function(request, response){
     console.log(request.body);
-    axios.get(request.body.urlRace+"/data", {
-    //axios.get("https://racetime.gg/ori-bf/epic-meowth-6008/data", {
-    }).then(
+    axios.get(request.body.urlRace+"/data", {}).then(
         function(res){
             response.send(res.data);
             var wsRace = new WebSocket("wss://racetime.gg"+res.data.websocket_bot_url);
-                wsRace.on('message', function(data, flags) {
-                let donne = JSON.parse(data);
-                var finish = 0;
-                if(donne.type=="race.data"){
-                    console.log(donne.race.entrants);
-                    if(donne.race.entrants[finish].place != null);{
-                        finish++;
-                    }
+            wsRace.on('message', function(data, flags) {
+            let donne = JSON.parse(data);
+            if(donne.type=="race.data"){
+                console.log(donne.race.entrants);
+                let player = donne.race.entrants[donne.race.entrants_count_finished-1]
+                if(player.status.value == 'done' && player.user.id != lastFinish){
+                    lastFinish = player.user.id;
+                    let time = player.finish_time.replace("(\d+)H(\d+)M(\d+)","$1:$2:$3");
+                    //printTwitch(player.user.name+" "+player.status.verbose_value+" "+player.place_ordinal+" in "+time);
                 }
-                
-            });
-        }
+            }
+        });
+    }
     ).catch(function (error){
         console.log(error);
     })
 })
 
 app.all('/twitch', function(request, response){
-
+    //botTwitch.setUrl(request.urlChannel);
 })
 
 const server = https.createServer(options, app).listen(3123);
