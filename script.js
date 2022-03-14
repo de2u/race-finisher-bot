@@ -150,5 +150,5 @@ function fillTable(arr) {
 }
 
 function HowItWork() {
-    // $('#myModal').modal('show')
+    $('#ModalHowItWork').modal('show')
 }
