@@ -3,8 +3,6 @@ const express = require('express');
 const fs = require('fs');
 const https = require('https');
 const WebSocket = require('ws');
-//clientId = fs.readFile('clientId.txt');
-//secret = fs.readFile('secret.txt');
 const axios = require('axios');
 token = "";
 const app = express();
@@ -15,7 +13,7 @@ const options = {
     cert: fs.readFileSync('selfsigned.crt')
 };
 
-
+eval(fs.readFileSync('twitchBot.js')+'');
 
 
 const bodyParser=require('body-parser');
@@ -59,17 +57,16 @@ app.all('/race', function(request, response){
             response.send(res.data);
             var wsRace = new WebSocket("wss://racetime.gg"+res.data.websocket_bot_url);
             wsRace.on('message', function(data, flags) {
-                let donne = JSON.parse(data);
-                //console.log(donne);
-                if(donne.type=="race.data"){
-                    if(donne.race.entrants_count_finished > 0){
-                        let player = donne.race.entrants[donne.race.entrants_count_finished-1]
-                        if(player.status.value == 'done' && player.user.id != lastFinish){
-                            lastFinish = player.user.id;
-                            let time = player.finish_time.match(/(\d+)H(\d+)M(\d+)/g)[0];
-                            time = time.replace(/[HM]/g, ":")
-                            console.log(player.user.name+" "+player.status.verbose_value+" "+player.place_ordinal+" in "+time);
-                    }
+            let donne = JSON.parse(data);
+            if(donne.type=="race.data"){
+                console.log(donne.race.entrants);
+                let player = donne.race.entrants[donne.race.entrants_count_finished-1]
+                if(player.status.value == 'done' && player.user.id != lastFinish){
+                    lastFinish = player.user.id;
+                    let time = player.finish_time.match(/(\d+)H(\d+)M(\d+)/g)[0];
+                    time = time.replace(/[HM]/g, ":");
+                    startBot("blabla");
+                    sendInfo(player.user.name+" "+player.status.verbose_value+" "+player.place_ordinal+" in "+time);
                 }
             }
         });
@@ -80,8 +77,7 @@ app.all('/race', function(request, response){
 })
 
 app.all('/twitch', function(request, response){
-    console.log(request.body.urlChannel);
-    //botTwitch.setUrl(request.body.urlChannel);
+    setChannel(request.body.urlChannel);
 })
 
 const server = https.createServer(options, app).listen(3123);
