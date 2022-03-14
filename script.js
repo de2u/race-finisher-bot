@@ -1,23 +1,36 @@
 function darkwhiteMode() {
 
     if (document.getElementById("nameMode").innerText == "Light Mode") {
-        document.getElementById("nameMode").innerText = "Dark Mode";
-        $(cssSwitch).attr('href', 'https://maxcdn.bootstrapcdn.com/bootswatch/4.2.1/flatly/bootstrap.min.css');
-        $(theadColor).toggleClass("bugColor");
-        setCookie("light");
+        darkMode();
     } else {
-        document.getElementById("nameMode").innerText = "Light Mode";
-        $(cssSwitch).attr('href', 'https://maxcdn.bootstrapcdn.com/bootswatch/4.2.1/darkly/bootstrap.min.css');
-        $(theadColor).toggleClass("bugColor");
-        setCookie("dark");
+        lightMode();
     }
 
 }
 
+function darkMode() {
+    document.getElementById("nameMode").innerText = "Dark Mode";
+    $(cssSwitch).attr('href', 'https://maxcdn.bootstrapcdn.com/bootswatch/4.2.1/flatly/bootstrap.min.css');
+    $(arrowLeft).attr('src', '/img/arrow_left_black.png');
+    $(arrowRight).attr('src', '/img/arrow_right_black.png');
+    // $(theadColor).toggleClass("bugColor");
+    setCookie("light");
+}
+
+function lightMode() {
+    document.getElementById("nameMode").innerText = "Light Mode";
+    $(cssSwitch).attr('href', 'https://maxcdn.bootstrapcdn.com/bootswatch/4.2.1/darkly/bootstrap.min.css');
+
+    $(arrowLeft).attr('src', '/img/arrow_left_white.png');
+    $(arrowRight).attr('src', '/img/arrow_right_white.png');
+    // $(theadColor).toggleClass("bugColor");
+    setCookie("dark");
+}
+
 function setCookie(cvalue) {
     const d = new Date();
-    d.setTime(d.getTime() + (365*24*60*60*1000));
-    let expires = "expires="+ d.toUTCString();
+    d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+    let expires = "expires=" + d.toUTCString();
     document.cookie = "theme=" + cvalue + ";" + expires;
 }
 
@@ -25,7 +38,7 @@ function getCookie() {
     let name = "theme=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
-    for(let i = 0; i <ca.length; i++) {
+    for (let i = 0; i < ca.length; i++) {
         let c = ca[i];
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
@@ -37,18 +50,15 @@ function getCookie() {
     return "";
 }
 
-function lauchTheme(){
+function lauchTheme() {
     let tmp = getCookie();
     switch (tmp) {
         case "light":
-            document.getElementById("nameMode").innerText = "Dark Mode";
-            $(cssSwitch).attr('href', 'https://maxcdn.bootstrapcdn.com/bootswatch/4.2.1/flatly/bootstrap.min.css');
-            $(theadColor).toggleClass("bugColor");
+            darkMode();
             break;
         case "":
         case "dark":
-            document.getElementById("nameMode").innerText = "Light Mode";
-            $(cssSwitch).attr('href', 'https://maxcdn.bootstrapcdn.com/bootswatch/4.2.1/darkly/bootstrap.min.css');
+            lightMode();
             break;
     }
 }
@@ -59,7 +69,7 @@ $(document).ready(function() {
     $(urlRaceButton).click(function() {
         var url = $(urlRace).val();
         $.post("https://pedago.univ-avignon.fr:3123/race", { urlRace: url }, function(result) {
-            var user= [{}];
+            var user = [{}];
             console.log(result);
             console.log("ds");
             $.getJSON(result, function(data) {
@@ -76,16 +86,17 @@ $(document).ready(function() {
         //fillTable(user);
     });
 
-    $(urlChannelButton).click(function (){
+    $(urlChannelButton).click(function() {
         var url = $(urlChannel).val();
         url = isUrl(url);
+        test();
         $.post("https://pedago.univ-avignon.fr:3123/race", { urlChannel: url }, function(result) {
             console.log(result);
-            socket = new WebSocket('wss://racetime.gg'+result.websocket_url);
+            socket = new WebSocket('wss://racetime.gg' + result.websocket_url);
 
 
             // Écouter les messages
-            socket.addEventListener('message', function (event) {
+            socket.addEventListener('message', function(event) {
                 $.getJSON(event, function(data) {
                     $("tableauScore").append(data.renders.entrants);
 
@@ -98,12 +109,25 @@ $(document).ready(function() {
 
 });
 
-function isUrl(message)
-{
+function test() {
+    socket = new WebSocket('wss://racetime.gg/ws/race/daring-falco-4146');
+
+
+    // Écouter les messages
+    socket.addEventListener('message', function(event) {
+        $.getJSON(event, function(data) {
+            $("tableauScore").append(data.renders.entrants);
+
+        });
+
+    });
+}
+
+function isUrl(message) {
     var url = new RegExp('^https?:');
 
-    if (!url.test(VAL)) {
-        return "https://www.twitch.tv/"+message;
+    if (!url.test(message)) {
+        return "https://www.twitch.tv/" + message;
     }
     return message;
 }
@@ -123,3 +147,6 @@ function fillTable(arr) {
     });
 }
 
+function HowItWork() {
+    // $('#myModal').modal('show')
+}
