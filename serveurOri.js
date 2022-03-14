@@ -3,8 +3,6 @@ const express = require('express');
 const fs = require('fs');
 const https = require('https');
 const WebSocket = require('ws');
-//clientId = fs.readFile('clientId.txt');
-//secret = fs.readFile('secret.txt');
 const axios = require('axios');
 token = "";
 const app = express();
@@ -15,7 +13,7 @@ const options = {
     cert: fs.readFileSync('selfsigned.crt')
 };
 
-
+eval(fs.readFileSync('twitchBot.js')+'');
 
 
 const bodyParser=require('body-parser');
@@ -65,8 +63,10 @@ app.all('/race', function(request, response){
                 let player = donne.race.entrants[donne.race.entrants_count_finished-1]
                 if(player.status.value == 'done' && player.user.id != lastFinish){
                     lastFinish = player.user.id;
-                    let time = player.finish_time.replace("(\d+)H(\d+)M(\d+)","$1:$2:$3");
-                    //printTwitch(player.user.name+" "+player.status.verbose_value+" "+player.place_ordinal+" in "+time);
+                    let time = player.finish_time.match(/(\d+)H(\d+)M(\d+)/g)[0];
+                    time = time.replace(/[HM]/g, ":");
+                    startBot("blabla");
+                    sendInfo(player.user.name+" "+player.status.verbose_value+" "+player.place_ordinal+" in "+time);
                 }
             }
         });
@@ -77,7 +77,7 @@ app.all('/race', function(request, response){
 })
 
 app.all('/twitch', function(request, response){
-    //botTwitch.setUrl(request.urlChannel);
+    setChannel(request.body.urlChannel);
 })
 
 const server = https.createServer(options, app).listen(3123);
