@@ -12,7 +12,8 @@ const app = express();
 
 const options = {
     key: fs.readFileSync('selfsigned.key'),
-    cert: fs.readFileSync('selfsigned.crt')};
+    cert: fs.readFileSync('selfsigned.crt')
+};
 
 
 
@@ -57,13 +58,7 @@ app.all('/race', function(request, response){
     //axios.get("https://racetime.gg/ori-bf/epic-meowth-6008/data", {
     }).then(
         function(res){
-            //console.log(res.data);
             response.send(res.data);
-            /*var wsServer = new WebSocketServer({
-            httpsServers: server,     
-            autoAcceptConnections: true
-            };*/
-
             var wsRace = new WebSocket("wss://racetime.gg"+res.data.websocket_bot_url);
                 wsRace.on('message', function(data, flags) {
                 let donne = JSON.parse(data);
@@ -74,15 +69,16 @@ app.all('/race', function(request, response){
                         finish++;
                     }
                 }
-                else{
-                    //envoyer html à frontend par socket.
-                }
                 
             });
         }
     ).catch(function (error){
         console.log(error);
     })
+})
+
+app.all('/twitch', function(request, response){
+
 })
 
 const server = https.createServer(options, app).listen(3123);
