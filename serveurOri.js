@@ -58,16 +58,22 @@ app.all('/race', function(request, response){
             var wsRace = new WebSocket("wss://racetime.gg"+res.data.websocket_bot_url);
             wsRace.on('message', function(data, flags) {
             let donne = JSON.parse(data);
-            if(donne.type=="race.data"){
-                console.log(donne.race.entrants);
-                let player = donne.race.entrants[donne.race.entrants_count_finished-1]
-                if(player.status.value == 'done' && player.user.id != lastFinish){
+            //console.log(donne);
+            if(donne.type=="race.data"){    
+                if(donne.race.status.value == 'in_progress' || donne.race.status.value =='finished'){
+                    console.log(donne.race.entrants);
+                    if(donne.race.entrants_count_finished == 0){
+                        return;
+                    }
+                    let player = donne.race.entrants[donne.race.entrants_count_finished-1]
+                    if(player.status.value == 'done' && player.user.id != lastFinish){
                     lastFinish = player.user.id;
                     let time = player.finish_time.match(/(\d+)H(\d+)M(\d+)/g)[0];
                     time = time.replace(/[HM]/g, ":");
                     startBot("blabla");
                     sendInfo(player.user.name+" "+player.status.verbose_value+" "+player.place_ordinal+" in "+time);
-                }
+                    }
+                }    
             }
         });
     }
@@ -77,6 +83,7 @@ app.all('/race', function(request, response){
 })
 
 app.all('/twitch', function(request, response){
+    console.log(request.body.urlChannel);
     setChannel(request.body.urlChannel);
 })
 
